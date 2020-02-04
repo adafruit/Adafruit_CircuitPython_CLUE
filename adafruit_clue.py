@@ -86,8 +86,6 @@ class _DisplayClueData:
 
         if not colors:
             colors = ((255, 0, 255), (0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0),
-                      (0, 0, 255), (255, 0, 180), (0, 180, 255), (255, 180, 0), (180, 0, 255),
-                      (255, 0, 255), (0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0),
                       (0, 0, 255), (255, 0, 180), (0, 180, 255), (255, 180, 0), (180, 0, 255))
 
         self._label = label
@@ -111,7 +109,7 @@ class _DisplayClueData:
 
         self._lines = []
         for num in range(num_lines):
-            self._lines.append(self.add_text_line(color=colors[num]))
+            self._lines.append(self.add_text_line(color=colors[num % len(colors)]))
 
     def __getitem__(self, item):
         """Fetch the Nth text line Group"""
@@ -814,11 +812,13 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
                                     Defaults to 1.
         :param str font: The font to use to display the title and data. Defaults to built in
                      ``terminalio.FONT``.
-        :param colors: A list of colors for the lines of data on the display that must include one
-                       color for each of the lines you intend to display. Default colors are
-                       used if ``colors`` is not set. For example, if creating two lines of data,
-                       ``colors=((255, 255, 255), (255, 0, 0))`` would set the first line white
-                       and the second line red.
+        :param colors: A list of colors for the lines of data on the display. If you provide a
+                       single color, all lines will be that color. Otherwise it will alternate the
+                       list you provide if the list is less than the number of lines displayed.
+                       Default colors are used if ``colors`` is not set. For example, if creating
+                       two lines of data, ``colors=((255, 255, 255), (255, 0, 0))`` would set the
+                       first line white and the second line red, and if you created four lines of
+                       data with the same setup, it would alternate white and red.
 
         .. image :: ../docs/_static/display_clue_data.jpg
           :alt: Display Clue Data demo
