@@ -61,17 +61,17 @@ import array
 import math
 import board
 import digitalio
-import audiobusio
-import audiopwmio
-import audiocore
-import gamepad
-import touchio
 import neopixel
 import adafruit_apds9960.apds9960
 import adafruit_bmp280
 import adafruit_lis3mdl
 import adafruit_lsm6ds
 import adafruit_sht31d
+import audiobusio
+import audiopwmio
+import audiocore
+import gamepad
+import touchio
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_CLUE.git"
