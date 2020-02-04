@@ -42,7 +42,7 @@ setup(
         'adafruit-circuitpython-lsm6ds',
         'adafruit-circuitpython-lis3mdl',
         'adafruit-circuitpython-display-text',
-        'adafuit-circuitpython-bmp280',
+        'adafruit-circuitpython-bmp280',
         'adafruit-circuitpython-apds9960'
     ],
 
