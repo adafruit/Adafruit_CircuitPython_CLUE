@@ -415,17 +415,40 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         .. image :: ../docs/_static/proximity.jpg
           :alt: Color sensor
 
+        This example prints the values. Try holding something up to the sensor to see the values
+        change. Works best with white LEDs enabled.
+
+        To use with the CLUE:
+
+        .. code-block:: python
+
+          from adafruit_clue import clue
+
+          while True:
+              print("Color: R: {} G: {} B: {} C: {}".format(*clue.color))
         """
         self._sensor.enable_color = True
         return self._sensor.color_data
 
     @property
     def gesture(self):
-        """gesture code if detected. =0 if no gesture detected
-        =1 if an UP, =2 if a DOWN, =3 if an LEFT, =4 if a RIGHT
+        """A gesture code if gesture is detected. Shows ``0`` if no gesture detected.
+        ``1`` if an UP gesture is detected, ``2`` if DOWN, ``3`` if LEFT, and ``4`` if RIGHT.
 
         .. image :: ../docs/_static/proximity.jpg
           :alt: Gesture sensor
+
+        This example prints the gesture values. Try moving your hand up, down, left or right over
+        the sensor to see the value change.
+
+        To use with the CLUE:
+
+        .. code-block:: python
+
+          from adafruit_clue import clue
+
+          while True:
+              print("Gesture: {}".format(clue.gesture))
         """
         self._sensor.enable_gesture = True
         return self._sensor.gesture()
@@ -797,7 +820,10 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
                        ``colors=((255, 255, 255), (255, 0, 0))`` would set the first line white
                        and the second line red.
 
-        This example displays the acceleration, gyro and magnetic data on the display.
+        .. image :: ../docs/_static/display_clue_data.jpg
+          :alt: Display Clue Data demo
+
+        This example displays three lines with acceleration, gyro and magnetic data on the display.
 
         .. code-block:: python
 
