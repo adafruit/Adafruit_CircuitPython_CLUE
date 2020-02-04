@@ -61,25 +61,25 @@ import array
 import math
 import board
 import digitalio
-import audiobusio
-import audiopwmio
-import audiocore
-import gamepad
-import touchio
 import neopixel
 import adafruit_apds9960.apds9960
 import adafruit_bmp280
 import adafruit_lis3mdl
 import adafruit_lsm6ds
 import adafruit_sht31d
+import audiobusio
+import audiopwmio
+import audiocore
+import gamepad
+import touchio
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_CLUE.git"
 
-class _DisplayClueData:
-    """Display sensor data."""
+class _ClueSimpleTextDisplay:
+    """Easily display lines of text on CLUE display."""
     def __init__(self, title="CLUE Sensor Data", title_color=0xFFFFFF, title_scale=1,   # pylint: disable=too-many-arguments
-                 clue_data_scale=1, font=None, num_lines=1, colors=None):
+                 text_scale=1, font=None, num_lines=1, colors=None):
         import displayio
         import terminalio
         from adafruit_display_text import label
@@ -104,8 +104,8 @@ class _DisplayClueData:
         title.y = 8
         self._y = title.y + 20
 
-        self.data_group = displayio.Group(max_size=20, scale=clue_data_scale)
-        self.data_group.append(title)
+        self.text_group = displayio.Group(max_size=20, scale=text_scale)
+        self.text_group.append(title)
 
         self._lines = []
         for num in range(num_lines):
@@ -117,17 +117,17 @@ class _DisplayClueData:
 
     def add_text_line(self, color=0xFFFFFF):
         """Adds a line on the display of the specified color and returns the label object."""
-        clue_data_label = self._label.Label(self._font, text="", max_glyphs=45, color=color)
-        clue_data_label.x = 0
-        clue_data_label.y = self._y
-        self._y = clue_data_label.y + 13
-        self.data_group.append(clue_data_label)
+        text_label = self._label.Label(self._font, text="", max_glyphs=45, color=color)
+        text_label.x = 0
+        text_label.y = self._y
+        self._y = text_label.y + 13
+        self.text_group.append(text_label)
 
-        return clue_data_label
+        return text_label
 
     def show(self):
         """Call show() to display the data list."""
-        self._display.show(self.data_group)
+        self._display.show(self.text_group)
 
     def show_terminal(self):
         """Revert to terminalio screen."""
@@ -794,9 +794,9 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self.sound_level > sound_threshold
 
     @staticmethod
-    def display_clue_data(title="CLUE Sensor Data", title_color=(255, 255, 255), title_scale=1,  # pylint: disable=too-many-arguments
-                          num_lines=1, clue_data_scale=1, font=None, colors=None):
-        """Display CLUE data as lines of text.
+    def simple_text_display(title="CLUE Sensor Data", title_color=(255, 255, 255), title_scale=1,  # pylint: disable=too-many-arguments
+                            num_lines=1, text_scale=1, font=None, colors=None):
+        """Display lines of text on the CLUE display.
 
         Setup occurs before the loop. For data to be dynamically updated on the display, you must
         include the data call in the loop by using ``.text =``. For example, if setup is saved as
@@ -808,7 +808,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         :param title_color: The color of the displayed title. Defaults to white 255, 255, 255).
         :param int title_scale: Scale the size of the title. Defaults to 1.
         :param int num_lines: The number of lines of data you intend to display. Defaults to 1.
-        :param int clue_data_scale: Scale the size of the data lines. Scales the title as well.
+        :param int text_scale: Scale the size of the data lines. Scales the title as well.
                                     Defaults to 1.
         :param str font: The font to use to display the title and data. Defaults to built in
                      ``terminalio.FONT``.
@@ -836,9 +836,9 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               clue_data[1].text = "Gyro: {:.2f} {:.2f} {:.2f}".format(*clue.gyro)
               clue_data[2].text = "Magnetic: {:.3f} {:.3f} {:.3f}".format(*clue.magnetic)
         """
-        return _DisplayClueData(title=title, title_color=title_color, title_scale=title_scale,
-                                num_lines=num_lines, clue_data_scale=clue_data_scale, font=font,
-                                colors=colors)
+        return _ClueSimpleTextDisplay(title=title, title_color=title_color, title_scale=title_scale,
+                                      num_lines=num_lines, text_scale=text_scale, font=font,
+                                      colors=colors)
 
 
 clue = Clue()  # pylint: disable=invalid-name
