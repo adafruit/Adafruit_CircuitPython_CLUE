@@ -106,7 +106,7 @@ class _ClueSimpleTextDisplay:
                                 scale=title_scale)
             title.x = 0
             title.y = 8
-            self._y = title.y + 15
+            self._y = title.y + 18
 
             self.text_group.append(title)
         else:

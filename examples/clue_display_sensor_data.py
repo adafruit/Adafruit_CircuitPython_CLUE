@@ -2,7 +2,7 @@ from adafruit_clue import clue
 
 clue.sea_level_pressure = 1020
 
-clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2, num_lines=15)
+clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2)
 
 while True:
     clue_data[0].text = "Acceleration: {:.2f} {:.2f} {:.2f} m/s^2".format(*clue.acceleration)
