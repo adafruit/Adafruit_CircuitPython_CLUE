@@ -834,6 +834,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               clue_data[0].text = "Acceleration: {:.2f} {:.2f} {:.2f}".format(*clue.acceleration)
               clue_data[1].text = "Gyro: {:.2f} {:.2f} {:.2f}".format(*clue.gyro)
               clue_data[2].text = "Magnetic: {:.3f} {:.3f} {:.3f}".format(*clue.magnetic)
+              clue_data.show()
         """
         return _ClueSimpleTextDisplay(title=title, title_color=title_color, title_scale=title_scale,
                                       num_lines=num_lines, text_scale=text_scale, font=font,
