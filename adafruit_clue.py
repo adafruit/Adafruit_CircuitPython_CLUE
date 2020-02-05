@@ -165,8 +165,6 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         # Define audio:
         self._mic = audiobusio.PDMIn(board.MICROPHONE_CLOCK, board.MICROPHONE_DATA,
                                      sample_rate=16000, bit_depth=16)
-        self._speaker = digitalio.DigitalInOut(board.SPEAKER)
-        self._speaker.switch_to_output()
         self._sample = None
         self._samples = None
         self._sine_wave = None
@@ -829,12 +827,14 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
           from adafruit_clue import clue
 
-          clue_data = clue.display_clue_data(title="CLUE Sensor Data!", title_scale=2, num_lines=3)
+          clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2,
+                                               num_lines=3)
 
           while True:
               clue_data[0].text = "Acceleration: {:.2f} {:.2f} {:.2f}".format(*clue.acceleration)
               clue_data[1].text = "Gyro: {:.2f} {:.2f} {:.2f}".format(*clue.gyro)
               clue_data[2].text = "Magnetic: {:.3f} {:.3f} {:.3f}".format(*clue.magnetic)
+              clue_data.show()
         """
         return _ClueSimpleTextDisplay(title=title, title_color=title_color, title_scale=title_scale,
                                       num_lines=num_lines, text_scale=text_scale, font=font,
