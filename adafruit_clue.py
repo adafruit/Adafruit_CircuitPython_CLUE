@@ -78,8 +78,8 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_CLUE.git"
 
 class _ClueSimpleTextDisplay:
     """Easily display lines of text on CLUE display."""
-    def __init__(self, title="CLUE Sensor Data", title_color=0xFFFFFF, title_scale=1,   # pylint: disable=too-many-arguments
-                 text_scale=1, font=None, num_lines=1, colors=None):
+    def __init__(self, title=None, title_color=0xFFFFFF, title_scale=1,   # pylint: disable=too-many-arguments
+                 text_scale=1, font=None, colors=None):
         import displayio
         import terminalio
         from adafruit_display_text import label
@@ -88,31 +88,39 @@ class _ClueSimpleTextDisplay:
             colors = ((255, 0, 255), (0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0),
                       (0, 0, 255), (255, 0, 180), (0, 180, 255), (255, 180, 0), (180, 0, 255))
 
+        self._colors = colors
         self._label = label
         self._display = board.DISPLAY
         self._font = terminalio.FONT
         if font:
             self._font = font
 
-        # Fail gracefully if title is longer than 60 characters.
-        if len(title) > 60:
-            raise ValueError("Title must be 60 characters or less.")
-
-        title = label.Label(self._font, text=title, max_glyphs=60, color=title_color,
-                            scale=title_scale)
-        title.x = 0
-        title.y = 8
-        self._y = title.y + 20
-
         self.text_group = displayio.Group(max_size=20, scale=text_scale)
-        self.text_group.append(title)
+
+        if title:
+            # Fail gracefully if title is longer than 60 characters.
+            if len(title) > 60:
+                raise ValueError("Title must be 60 characters or less.")
+
+            title = label.Label(self._font, text=title, max_glyphs=60, color=title_color,
+                                scale=title_scale)
+            title.x = 0
+            title.y = 8
+            self._y = title.y + 15
+
+            self.text_group.append(title)
+        else:
+            self._y = 3
 
         self._lines = []
-        for num in range(num_lines):
+        for num in range(1):
             self._lines.append(self.add_text_line(color=colors[num % len(colors)]))
 
     def __getitem__(self, item):
         """Fetch the Nth text line Group"""
+        if len(self._lines) - 1 < item:
+            for _ in range(item - (len(self._lines) - 1)):
+                self._lines.append(self.add_text_line(color=self._colors[item % len(self._colors)]))
         return self._lines[item]
 
     def add_text_line(self, color=0xFFFFFF):
@@ -614,7 +622,8 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
             from adafruit_clue import clue
 
-            clue.pixel.fill((255, 0, 255))
+            while True:
+                clue.pixel.fill((255, 0, 255))
         """
         return self._pixel
 
@@ -792,27 +801,34 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self.sound_level > sound_threshold
 
     @staticmethod
-    def simple_text_display(title="CLUE Sensor Data", title_color=(255, 255, 255), title_scale=1,  # pylint: disable=too-many-arguments
-                            num_lines=1, text_scale=1, font=None, colors=None):
-        """Display lines of text on the CLUE display.
+    def simple_text_display(title=None, title_color=(255, 255, 255), title_scale=1,  # pylint: disable=too-many-arguments
+                            text_scale=1, font=None, colors=None):
+        """Display lines of text on the CLUE display. Lines of text are created in order as shown
+        in the example below. If you skip a number, the line will be shown blank on the display,
+        e.g. if you include ``[0]`` and ``[2]``, the second line on the display will be empty, and
+        the text specified for lines 0 and 2 will be displayed on the first and third line.
+        Remember, Python begins counting at 0, so the first line on the display is 0 in the code.
 
         Setup occurs before the loop. For data to be dynamically updated on the display, you must
         include the data call in the loop by using ``.text =``. For example, if setup is saved as
         ``clue_data = display_clue_data()`` then ``clue_data[0].text = clue.proximity`` must be
         inside the ``while True:`` loop for the proximity data displayed to update as the
-        values change.
+        values change. You must call ``show()`` at the end of the list for anything to display.
+        See example below for usage.
 
-        :param str title: The title displayed above the data. Defaults to "CLUE Sensor Data".
-        :param title_color: The color of the displayed title. Defaults to white 255, 255, 255).
-        :param int title_scale: Scale the size of the title. Defaults to 1.
-        :param int num_lines: The number of lines of data you intend to display. Defaults to 1.
+        :param str title: The title displayed above the data. Set ``title="Title text"`` to provide
+                          a title. Defaults to None.
+        :param title_color: The color of the title. Not necessary if no title is provided. Defaults
+                            to white (255, 255, 255).
+        :param int title_scale: Scale the size of the title. Not necessary if no title is provided.
+                                Defaults to 1.
         :param int text_scale: Scale the size of the data lines. Scales the title as well.
-                                    Defaults to 1.
+                               Defaults to 1.
         :param str font: The font to use to display the title and data. Defaults to built in
                      ``terminalio.FONT``.
         :param colors: A list of colors for the lines of data on the display. If you provide a
-                       single color, all lines will be that color. Otherwise it will alternate the
-                       list you provide if the list is less than the number of lines displayed.
+                       single color, all lines will be that color. Otherwise it will cycle through
+                       the list you provide if the list is less than the number of lines displayed.
                        Default colors are used if ``colors`` is not set. For example, if creating
                        two lines of data, ``colors=((255, 255, 255), (255, 0, 0))`` would set the
                        first line white and the second line red, and if you created four lines of
@@ -822,13 +838,13 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
           :alt: Display Clue Data demo
 
         This example displays three lines with acceleration, gyro and magnetic data on the display.
+        Remember to call ``show()`` after the list to update the display.
 
         .. code-block:: python
 
           from adafruit_clue import clue
 
-          clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2,
-                                               num_lines=3)
+          clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2)
 
           while True:
               clue_data[0].text = "Acceleration: {:.2f} {:.2f} {:.2f}".format(*clue.acceleration)
@@ -837,8 +853,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               clue_data.show()
         """
         return _ClueSimpleTextDisplay(title=title, title_color=title_color, title_scale=title_scale,
-                                      num_lines=num_lines, text_scale=text_scale, font=font,
-                                      colors=colors)
+                                      text_scale=text_scale, font=font, colors=colors)
 
 
 clue = Clue()  # pylint: disable=invalid-name
