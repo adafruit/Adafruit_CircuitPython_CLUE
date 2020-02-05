@@ -827,7 +827,8 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
           from adafruit_clue import clue
 
-          clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2, num_lines=3)
+          clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2,
+                                               num_lines=3)
 
           while True:
               clue_data[0].text = "Acceleration: {:.2f} {:.2f} {:.2f}".format(*clue.acceleration)
