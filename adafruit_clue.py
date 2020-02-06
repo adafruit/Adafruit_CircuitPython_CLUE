@@ -85,8 +85,8 @@ class _ClueSimpleTextDisplay:
         from adafruit_display_text import label
 
         if not colors:
-            colors = ((255, 0, 255), (0, 255, 0), (255, 0, 0), (0, 255, 255), (255, 255, 0),
-                      (0, 0, 255), (255, 0, 180), (0, 180, 255), (255, 180, 0), (180, 0, 255))
+            colors = (Clue.VIOLET, Clue.GREEN, Clue.RED, Clue.CYAN, Clue.ORANGE,
+                      Clue.BLUE, Clue.MAGENTA, Clue.SKY, Clue.YELLOW, Clue.PURPLE)
 
         self._colors = colors
         self._label = label
@@ -143,6 +143,30 @@ class _ClueSimpleTextDisplay:
 
 class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-methods
     """Represents a single CLUE."""
+
+    # Color variables available for import.
+    RED = (255, 0, 0)
+    YELLOW = (255, 255, 0)
+    ORANGE = (255, 150, 0)
+    GREEN = (0, 255, 0)
+    TEAL = (0, 255, 120)
+    CYAN = (0, 255, 255)
+    BLUE = (0, 0, 255)
+    PURPLE = (180, 0, 255)
+    MAGENTA = (255, 0, 150)
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+
+    GOLD = (255, 222, 30)
+    PINK = (242, 90, 255)
+    AQUA = (50, 255, 255)
+    JADE = (0, 255, 40)
+    AMBER = (255, 100, 0)
+    VIOLET = (255, 0, 255)
+    SKY = (0, 180, 255)
+
+    RAINBOW = (RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
+
     def __init__(self):
         # Define I2C:
         self._i2c = board.I2C()
