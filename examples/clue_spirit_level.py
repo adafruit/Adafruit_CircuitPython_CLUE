@@ -26,4 +26,3 @@ while True:
     x, y, _ = clue.acceleration
     bubble_group.x = int(x * 10)
     bubble_group.y = int(y * 10)
-    display.show(group)
