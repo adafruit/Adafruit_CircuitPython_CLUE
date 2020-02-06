@@ -16,7 +16,7 @@ clue_display[3].text = "initial height!"
 while True:
     if clue.button_a:
         initial_height = clue.altitude
-        clue.pixel.fill((255, 0, 0))
+        clue.pixel.fill(clue.RED)
     else:
         clue.pixel.fill(0)
     clue_display[5].text = "Altitude: {:.1f} m".format(clue.altitude)
