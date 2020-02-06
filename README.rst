@@ -29,10 +29,13 @@ This driver depends on:
 * `Adafruit BMP280 <https://github.com/adafruit/Adafruit_CircuitPython_BMP280>`_
 * `Adafruit SHT31D <https://github.com/adafruit/Adafruit_CircuitPython_SHT31D>`_
 * `Adafruit NeoPixel <https://github.com/adafruit/Adafruit_CircuitPython_NeoPixel>`_
+* `Adafruit Display Text <https://github.com/adafruit/Adafruit_CircuitPython_Display_Text>`_
 
 Please ensure all dependencies are available on the CircuitPython filesystem.
 This is easily achieved by downloading
 `the Adafruit library and driver bundle <https://circuitpython.org/libraries>`_.
+
+Demos may require libraries not listed here.
 
 Installing from PyPI
 =====================
