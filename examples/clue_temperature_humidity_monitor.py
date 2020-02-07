@@ -22,10 +22,10 @@ while True:
     humidity = clue.humidity
     clue_display[3].text = "Temp: {:.1f} C".format(temperature)
     clue_display[5].text = "Humi: {:.1f} %".format(humidity)
-    if temperature < min_temp:
+    if temperature < min_temperature:
         clue_display[3].color = clue.BLUE
         alarm = True
-    elif temperature > max_temp:
+    elif temperature > max_temperature:
         clue_display[3].color = clue.RED
         alarm = True
     else:
