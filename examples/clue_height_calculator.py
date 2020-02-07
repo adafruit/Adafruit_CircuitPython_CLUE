@@ -13,12 +13,14 @@ initial_height = clue.altitude
 clue_display[0].text = "Calculate height!"
 clue_display[2].text = "Press A to reset"
 clue_display[3].text = "initial height!"
+
 while True:
     if clue.button_a:
         initial_height = clue.altitude
         clue.pixel.fill(clue.RED)
     else:
         clue.pixel.fill(0)
+
     clue_display[5].text = "Altitude: {:.1f} m".format(clue.altitude)
     clue_display[7].text = "Height: {:.1f} m".format(clue.altitude - initial_height)
     clue_display.show()

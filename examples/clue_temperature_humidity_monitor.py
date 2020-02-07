@@ -1,4 +1,4 @@
-"""Monitor customisable temperature and humidity ranges, with an optional alarm."""
+"""Monitor customisable temperature and humidity ranges, with an optional audible alarm tone."""
 from adafruit_clue import clue
 
 # Set desired temperature range in degrees Celsius.
@@ -9,19 +9,23 @@ max_temperature = 30
 min_humidity = 20
 max_humidity = 65
 
-# Set to true to enable alarm warning.
+# Set to true to enable audible alarm tone.
 alarm_enable = False
 
 clue_display = clue.simple_text_display(text_scale=3, colors=(clue.WHITE,))
 
 clue_display[0].text = "Temperature &"
 clue_display[1].text = "Humidity"
+
 while True:
     alarm = False
+
     temperature = clue.temperature
     humidity = clue.humidity
+
     clue_display[3].text = "Temp: {:.1f} C".format(temperature)
     clue_display[5].text = "Humi: {:.1f} %".format(humidity)
+
     if temperature < min_temperature:
         clue_display[3].color = clue.BLUE
         alarm = True
