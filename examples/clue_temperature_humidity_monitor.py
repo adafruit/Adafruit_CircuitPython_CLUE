@@ -2,8 +2,8 @@
 from adafruit_clue import clue
 
 # Set desired temperature range in degrees Celsius.
-min_temp = 24
-max_temp = 30
+min_temperature = 24
+max_temperature = 30
 
 # Set desired humidity range in percent.
 min_humidity = 20
@@ -22,10 +22,10 @@ while True:
     humidity = clue.humidity
     clue_display[3].text = "Temp: {:.1f} C".format(temperature)
     clue_display[5].text = "Humi: {:.1f} %".format(humidity)
-    if temperature < min_temp:
+    if temperature < min_temperature:
         clue_display[3].color = clue.BLUE
         alarm = True
-    elif temperature > max_temp:
+    elif temperature > max_temperature:
         clue_display[3].color = clue.RED
         alarm = True
     else:
