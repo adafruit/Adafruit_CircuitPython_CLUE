@@ -2,8 +2,8 @@
 from adafruit_clue import clue
 
 # Set desired temperature range in degrees Celsius.
-min_temp = 24
-max_temp = 30
+min_temperature = 24
+max_temperature = 30
 
 # Set desired humidity range in percent.
 min_humidity = 20
