@@ -30,7 +30,7 @@ if radio.connected:
             print("paired")
 
         ams = connection[AppleMediaService]
-        
+
 while radio.connected:
     if ams.playing:
         play = "Playing"
