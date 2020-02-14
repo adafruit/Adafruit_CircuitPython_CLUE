@@ -218,6 +218,9 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         # Barometric pressure sensor:
         self._pressure = adafruit_bmp280.Adafruit_BMP280_I2C(self._i2c)
 
+        # Create displayio object for passing.
+        self.display = board.DISPLAY
+
     def _touch(self, i):
         if not isinstance(self._touches[i], touchio.TouchIn):
             # First time referenced. Get the pin from the slot for this touch
