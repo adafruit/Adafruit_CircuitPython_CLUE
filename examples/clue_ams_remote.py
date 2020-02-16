@@ -2,6 +2,10 @@
 This example solicits that apple devices that provide notifications connect to it, initiates
 pairing, then allows the user to use a CLUE board as a media remote through both the buttons
 and capacitive touch pads.
+
+This example requires the following additional libraries:
+adafruit_ble
+adafruit_ble_apple_media
 """
 
 import time
