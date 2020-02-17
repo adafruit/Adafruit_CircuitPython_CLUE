@@ -12,6 +12,7 @@ adafruit_display_text
 """
 
 import time
+import board
 import adafruit_ble
 from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
 from adafruit_ble_apple_media import AppleMediaService
@@ -21,7 +22,7 @@ import displayio
 from adafruit_bitmap_font import bitmap_font
 from adafruit_display_shapes.rect import Rect
 from adafruit_display_text import label
-import board
+
 
 # PyLint can't find BLERadio for some reason so special case it here.
 radio = adafruit_ble.BLERadio() # pylint: disable=no-member
@@ -73,10 +74,10 @@ track_time = Rect(15, 210, 210, 20, fill=0x0, outline=0xFFFFFF)
 #time = label.Label(font=arial16, x=15, y=215, text='Time', color=0xFFFFFF)
 group.append(track_time)
 
-time_inner = Rect(15, 210, 1, 20, fill=0xFFFFFF, outline=0xFFFFFF) 
+time_inner = Rect(15, 210, 1, 20, fill=0xFFFFFF, outline=0xFFFFFF)
 group.append(time_inner)
 
-volume_inner = Rect(15, 170, 1, 20, fill=0xFFFFFF, outline=0xFFFFFF) 
+volume_inner = Rect(15, 170, 1, 20, fill=0xFFFFFF, outline=0xFFFFFF)
 group.append(volume_inner)
 
 display.show(group)
