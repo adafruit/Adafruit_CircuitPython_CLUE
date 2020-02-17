@@ -5,6 +5,10 @@ and capacitive touch pads.
 This example requires the following additional libraries:
 adafruit_ble
 adafruit_ble_apple_media
+displayio
+adafruit_bitmap_font
+adafruit_display_shapes
+adafruit_display_text
 """
 
 import time
