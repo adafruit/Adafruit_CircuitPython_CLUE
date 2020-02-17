@@ -7,7 +7,7 @@ Requires the Adafruit CircuitPython Slideshow library!"""
 from adafruit_clue import clue
 from adafruit_slideshow import SlideShow, PlayBackDirection
 
-slideshow = SlideShow(clue.display, None, folder="/", auto_advance=False, dwell=0)
+slideshow = SlideShow(clue.display, auto_advance=False)
 
 while True:
     if clue.button_b:
