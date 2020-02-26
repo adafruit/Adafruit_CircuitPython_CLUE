@@ -357,6 +357,34 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
                 ret.add(button)
         return ret
 
+    def shake(self, shake_threshold=30, avg_count=10, total_delay=0.1):
+        """
+        Detect when the accelerometer is shaken. Optional parameters:
+        :param shake_threshold: Increase or decrease to change shake sensitivity. This
+                                requires a minimum value of 10. 10 is the total
+                                acceleration if the board is not moving, therefore
+                                anything less than 10 will erroneously report a constant
+                                shake detected. (Default 30)
+        :param avg_count: The number of readings taken and used for the average
+                          acceleration. (Default 10)
+        :param total_delay: The total time in seconds it takes to obtain avg_count
+                            readings from acceleration. (Default 0.1)
+         """
+        shake_accel = (0, 0, 0)
+        for _ in range(avg_count):
+            # shake_accel creates a list of tuples from acceleration data.
+            # zip takes multiple tuples and zips them together, as in:
+            # In : zip([-0.2, 0.0, 9.5], [37.9, 13.5, -72.8])
+            # Out: [(-0.2, 37.9), (0.0, 13.5), (9.5, -72.8)]
+            # map applies sum to each member of this tuple, resulting in a
+            # 3-member list. tuple converts this list into a tuple which is
+            # used as shake_accel.
+            shake_accel = tuple(map(sum, zip(shake_accel, self.acceleration)))
+            time.sleep(total_delay / avg_count)
+        avg = tuple(value / avg_count for value in shake_accel)
+        total_accel = math.sqrt(sum(map(lambda x: x * x, avg)))
+        return total_accel > shake_threshold
+
     @property
     def acceleration(self):
         """Obtain acceleration data from the x, y and z axes.
