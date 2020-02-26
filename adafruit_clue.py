@@ -360,13 +360,16 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
     def shake(self, shake_threshold=30, avg_count=10, total_delay=0.1):
         """
         Detect when the accelerometer is shaken. Optional parameters:
+
         :param shake_threshold: Increase or decrease to change shake sensitivity. This
                                 requires a minimum value of 10. 10 is the total
                                 acceleration if the board is not moving, therefore
                                 anything less than 10 will erroneously report a constant
                                 shake detected. (Default 30)
+
         :param avg_count: The number of readings taken and used for the average
                           acceleration. (Default 10)
+
         :param total_delay: The total time in seconds it takes to obtain avg_count
                             readings from acceleration. (Default 0.1)
          """
