@@ -182,7 +182,8 @@ color_preview_group = displayio.Group(scale=30 * 2)
 color_preview_group.x = 240 // 2 - 60 // 2
 color_preview_group.y = 240 - (60 + 2)
 
-color_preview_tilegrid = displayio.TileGrid(color_select_preview_bmp, pixel_shader=color_select_palette)
+color_preview_tilegrid = displayio.TileGrid(color_select_preview_bmp,
+                                            pixel_shader=color_select_palette)
 color_preview_group.append(color_preview_tilegrid)
 
 # Create a TileGrid using the Bitmap and Palette
