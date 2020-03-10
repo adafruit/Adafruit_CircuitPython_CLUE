@@ -468,7 +468,11 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               print("Proximity: {}".format(clue.proximity))
         """
         self._sensor.enable_proximity = True
-        return self._sensor.proximity()
+        try:
+            prox = self._sensor.proximity()
+        except TypeError:
+            prox = self._sensor.proximity
+        return prox
 
     @property
     def color(self):
