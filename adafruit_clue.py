@@ -869,7 +869,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
         Setup occurs before the loop. For data to be dynamically updated on the display, you must
         include the data call in the loop by using ``.text =``. For example, if setup is saved as
-        ``clue_data = display_clue_data()`` then ``clue_data[0].text = clue.proximity`` must be
+        ``clue_data = simple_text_display()`` then ``clue_data[0].text = clue.proximity`` must be
         inside the ``while True:`` loop for the proximity data displayed to update as the
         values change. You must call ``show()`` at the end of the list for anything to display.
         See example below for usage.
