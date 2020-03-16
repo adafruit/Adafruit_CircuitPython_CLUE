@@ -74,7 +74,7 @@ This example displays sensor and input data on the CLUE display.
 
     clue.sea_level_pressure = 1020
 
-    clue_data = clue.display_clue_data(title="CLUE Sensor Data!", title_scale=2, num_lines=15)
+    clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2, num_lines=15)
 
     while True:
         clue_data[0].text = "Acceleration: {:.2f} {:.2f} {:.2f}".format(*clue.acceleration)
