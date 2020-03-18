@@ -88,7 +88,6 @@ def ble_scan():
             nearby_addresses.append(entry.address.address_bytes)
             nearby_colors.append(entry.color)
         else:  # address was already in the list
-            # print(entry.color)
             # update the color to currently advertised value
             _index = nearby_addresses.index(entry.address.address_bytes)
             nearby_colors[_index] = entry.color
