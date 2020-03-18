@@ -27,16 +27,18 @@ PROXIMITY_LIMIT = 100
 current_mode = MODE_SHOW_PATCHWORK
 
 # The color pickers will cycle through this list with buttons A and B.
-color_options = [0xEE0000,
-                 0xEEEE00,
-                 0x00EE00,
-                 0x00EEEE,
-                 0x0000EE,
-                 0xEE00EE,
-                 0xCCCCCC,
-                 0xFF9999,
-                 0x99FF99,
-                 0x9999FF]
+color_options = [
+    0xEE0000,
+    0xEEEE00,
+    0x00EE00,
+    0x00EEEE,
+    0x0000EE,
+    0xEE00EE,
+    0xCCCCCC,
+    0xFF9999,
+    0x99FF99,
+    0x9999FF,
+]
 
 
 # make all pixels in the patchwork bitmap transparent
@@ -57,14 +59,16 @@ def make_white():
 def draw_grid():
     for i, color in enumerate(nearby_colors):
         if i < 64:
-            palette_mapping[i + 2] = color & 0xFFFFFF  # Mask 0xFFFFFF to avoid invalid color.
+            palette_mapping[i + 2] = (
+                color & 0xFFFFFF
+            )  # Mask 0xFFFFFF to avoid invalid color.
             print(i)
             print(color)
 
 
 # create a fake mac address and color for testing
 def add_fake():
-    fake_mac = ''.join([random.choice("0123456789abcdef") for _ in range(10)])
+    fake_mac = "".join([random.choice("0123456789abcdef") for _ in range(10)])
     fake_color = random.choice(color_options)
     nearby_addresses.append(fake_mac)
     nearby_colors.append(fake_color)
@@ -144,7 +148,9 @@ bottom_box = Rect(79, 174, 80, 80, fill=0xFFFFFF, outline=0x000000, stroke=2)
 left_btn_lbl = label.Label(terminalio.FONT, text="A", color=0x000000)
 right_btn_lbl = label.Label(terminalio.FONT, text="B", color=0x000000)
 
-left_btn_action = label.Label(terminalio.FONT, text="Next\nColor", color=0x000000, line_spacing=1)
+left_btn_action = label.Label(
+    terminalio.FONT, text="Next\nColor", color=0x000000, line_spacing=1
+)
 right_btn_action = label.Label(terminalio.FONT, text="Save", color=0x000000)
 
 color_select_text_group.append(left_btn_lbl)
@@ -182,8 +188,9 @@ color_preview_group = displayio.Group(scale=30 * 2)
 color_preview_group.x = 240 // 2 - 60 // 2
 color_preview_group.y = 240 - (60 + 2)
 
-color_preview_tilegrid = displayio.TileGrid(color_select_preview_bmp,
-                                            pixel_shader=color_select_palette)
+color_preview_tilegrid = displayio.TileGrid(
+    color_select_preview_bmp, pixel_shader=color_select_palette
+)
 color_preview_group.append(color_preview_tilegrid)
 
 # Create a TileGrid using the Bitmap and Palette
@@ -239,7 +246,9 @@ while True:
             while clue.proximity >= PROXIMITY_LIMIT:
                 r, g, b, w = clue.color
                 clue.pixel.fill(((r >> 8) & 0xFF, (g >> 8) & 0xFF, (b >> 8) & 0xFF))
-                change_advertisement(((r & 0xFF00) << 8) + (g & 0xFF00) + ((b >> 8) & 0xFF))
+                change_advertisement(
+                    ((r & 0xFF00) << 8) + (g & 0xFF00) + ((b >> 8) & 0xFF)
+                )
                 time.sleep(0.1)
             clue.white_leds = False
 
