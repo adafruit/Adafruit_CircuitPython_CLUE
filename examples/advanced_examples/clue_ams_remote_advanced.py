@@ -24,7 +24,7 @@ from adafruit_display_text import label
 
 
 # PyLint can't find BLERadio for some reason so special case it here.
-radio = adafruit_ble.BLERadio() # pylint: disable=no-member
+radio = adafruit_ble.BLERadio()  # pylint: disable=no-member
 a = SolicitServicesAdvertisement()
 a.solicited_services.append(AppleMediaService)
 radio.start_advertising(a)
@@ -46,31 +46,31 @@ if radio.connected:
         ams = connection[AppleMediaService]
 
 
-#arial12 = bitmap_font.load_font("/fonts/Arial-12.bdf")
+# arial12 = bitmap_font.load_font("/fonts/Arial-12.bdf")
 arial16 = bitmap_font.load_font("/fonts/Arial-16.bdf")
-#arial24 = bitmap_font.load_font("/fonts/Arial-Bold-24.bdf")
+# arial24 = bitmap_font.load_font("/fonts/Arial-Bold-24.bdf")
 
 display = board.DISPLAY
 
 group = displayio.Group(max_size=25)
 
-title = label.Label(font=arial16, x=15, y=25, text='_', color=0xFFFFFF, max_glyphs=30)
+title = label.Label(font=arial16, x=15, y=25, text="_", color=0xFFFFFF, max_glyphs=30)
 group.append(title)
 
-artist = label.Label(font=arial16, x=15, y=50, text='_', color=0xFFFFFF, max_glyphs=30)
+artist = label.Label(font=arial16, x=15, y=50, text="_", color=0xFFFFFF, max_glyphs=30)
 group.append(artist)
 
-album = label.Label(font=arial16, x=15, y=75, text='_', color=0xFFFFFF, max_glyphs=30)
+album = label.Label(font=arial16, x=15, y=75, text="_", color=0xFFFFFF, max_glyphs=30)
 group.append(album)
 
-player = label.Label(font=arial16, x=15, y=100, text='_', color=0xFFFFFF, max_glyphs=30)
+player = label.Label(font=arial16, x=15, y=100, text="_", color=0xFFFFFF, max_glyphs=30)
 group.append(player)
 
 volume = Rect(15, 170, 210, 20, fill=0x0, outline=0xFFFFFF)
 group.append(volume)
 
 track_time = Rect(15, 210, 210, 20, fill=0x0, outline=0xFFFFFF)
-#time = label.Label(font=arial16, x=15, y=215, text='Time', color=0xFFFFFF)
+# time = label.Label(font=arial16, x=15, y=215, text='Time', color=0xFFFFFF)
 group.append(track_time)
 
 time_inner = Rect(15, 210, 1, 20, fill=0xFFFFFF, outline=0xFFFFFF)
@@ -96,19 +96,23 @@ while radio.connected:
         album.text = ams.album
         player.text = ams.player_name
         if ams.volume is not None:
-            width = int(16*13.125*float(ams.volume))
+            width = int(16 * 13.125 * float(ams.volume))
             if not width:
                 width = 1
             if ams.duration and ams.playing:
-                width1 = int(210*((time.time() - ref_time + ela_time)/float(ams.duration)))
+                width1 = int(
+                    210 * ((time.time() - ref_time + ela_time) / float(ams.duration))
+                )
                 if not width1:
                     width1 = 1
             elif not ams.duration:
                 width1 = 1
 
-            time_inner = Rect(15, 210, width1, 20, fill=0xFFFFFF)#, outline=0xFFFFFF)
+            time_inner = Rect(15, 210, width1, 20, fill=0xFFFFFF)  # , outline=0xFFFFFF)
             group[-2] = time_inner
-            volume_inner = Rect(15, 170, width, 20, fill=0xFFFFFF)#, outline=0xFFFFFF)
+            volume_inner = Rect(
+                15, 170, width, 20, fill=0xFFFFFF
+            )  # , outline=0xFFFFFF)
             group[-1] = volume_inner
 
         # Capacitive touch pad marked 0 goes to the previous track
@@ -127,20 +131,20 @@ while radio.connected:
             time.sleep(0.25)
 
         # If button B (on the right) is pressed, it increases the volume
-        if 'B' in clue.were_pressed:
+        if "B" in clue.were_pressed:
             ams.volume_up()
             a = clue.were_pressed
             time.sleep(0.35)
-            while 'B' in clue.were_pressed:
+            while "B" in clue.were_pressed:
                 ams.volume_up()
                 time.sleep(0.07)
 
         # If button A (on the left) is pressed, the volume decreases
-        if 'A' in clue.were_pressed:
+        if "A" in clue.were_pressed:
             ams.volume_down()
             a = clue.were_pressed
             time.sleep(0.35)
-            while 'A' in clue.were_pressed:
+            while "A" in clue.were_pressed:
                 ams.volume_down()
                 time.sleep(0.07)
         time.sleep(0.01)
