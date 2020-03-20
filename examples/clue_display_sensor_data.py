@@ -5,7 +5,9 @@ clue.sea_level_pressure = 1020
 clue_data = clue.simple_text_display(title="CLUE Sensor Data!", title_scale=2)
 
 while True:
-    clue_data[0].text = "Acceleration: {:.2f} {:.2f} {:.2f} m/s^2".format(*clue.acceleration)
+    clue_data[0].text = "Acceleration: {:.2f} {:.2f} {:.2f} m/s^2".format(
+        *clue.acceleration
+    )
     clue_data[1].text = "Gyro: {:.2f} {:.2f} {:.2f} dps".format(*clue.gyro)
     clue_data[2].text = "Magnetic: {:.3f} {:.3f} {:.3f} uTesla".format(*clue.magnetic)
     clue_data[3].text = "Pressure: {:.3f} hPa".format(clue.pressure)

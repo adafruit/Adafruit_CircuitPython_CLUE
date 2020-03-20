@@ -5,8 +5,10 @@ from adafruit_clue import clue
 # Set to the sea level pressure in hPa at your location for the most accurate altitude measurement.
 clue.sea_level_pressure = 1015
 
-clue_display = clue.simple_text_display(text_scale=2, colors=(clue.CYAN, 0, clue.RED, clue.RED, 0,
-                                                              clue.YELLOW, 0, clue.GREEN))
+clue_display = clue.simple_text_display(
+    text_scale=2,
+    colors=(clue.CYAN, 0, clue.RED, clue.RED, 0, clue.YELLOW, 0, clue.GREEN),
+)
 
 initial_height = clue.altitude
 

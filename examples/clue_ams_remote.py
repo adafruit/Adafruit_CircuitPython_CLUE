@@ -15,7 +15,7 @@ from adafruit_ble_apple_media import AppleMediaService
 from adafruit_clue import clue
 
 # PyLint can't find BLERadio for some reason so special case it here.
-radio = adafruit_ble.BLERadio() # pylint: disable=no-member
+radio = adafruit_ble.BLERadio()  # pylint: disable=no-member
 a = SolicitServicesAdvertisement()
 a.solicited_services.append(AppleMediaService)
 radio.start_advertising(a)
@@ -59,18 +59,18 @@ while radio.connected:
         time.sleep(0.25)
 
     # If button B (on the right) is pressed, it increases the volume
-    if 'B' in clue.were_pressed:
+    if "B" in clue.were_pressed:
         ams.volume_up()
         time.sleep(0.30)
-        while 'B' in clue.were_pressed:
+        while "B" in clue.were_pressed:
             ams.volume_up()
             time.sleep(0.07)
 
     # If button A (on the left) is pressed, the volume decreases
-    if 'A' in clue.were_pressed:
+    if "A" in clue.were_pressed:
         ams.volume_down()
         time.sleep(0.30)
-        while 'A' in clue.were_pressed:
+        while "A" in clue.were_pressed:
             ams.volume_down()
             time.sleep(0.07)
 

@@ -76,17 +76,39 @@ import touchio
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_CLUE.git"
 
+
 class _ClueSimpleTextDisplay:
     """Easily display lines of text on CLUE display."""
-    def __init__(self, title=None, title_color=0xFFFFFF, title_scale=1,   # pylint: disable=too-many-arguments
-                 text_scale=1, font=None, colors=None):
+
+    def __init__(  # pylint: disable=too-many-arguments
+        self,
+        title=None,
+        title_color=0xFFFFFF,
+        title_scale=1,
+        text_scale=1,
+        font=None,
+        colors=None,
+    ):
+        # pylint: disable=import-outside-toplevel
         import displayio
         import terminalio
         from adafruit_display_text import label
 
+        # pylint: enable=import-outside-toplevel
+
         if not colors:
-            colors = (Clue.VIOLET, Clue.GREEN, Clue.RED, Clue.CYAN, Clue.ORANGE,
-                      Clue.BLUE, Clue.MAGENTA, Clue.SKY, Clue.YELLOW, Clue.PURPLE)
+            colors = (
+                Clue.VIOLET,
+                Clue.GREEN,
+                Clue.RED,
+                Clue.CYAN,
+                Clue.ORANGE,
+                Clue.BLUE,
+                Clue.MAGENTA,
+                Clue.SKY,
+                Clue.YELLOW,
+                Clue.PURPLE,
+            )
 
         self._colors = colors
         self._label = label
@@ -102,8 +124,13 @@ class _ClueSimpleTextDisplay:
             if len(title) > 60:
                 raise ValueError("Title must be 60 characters or less.")
 
-            title = label.Label(self._font, text=title, max_glyphs=60, color=title_color,
-                                scale=title_scale)
+            title = label.Label(
+                self._font,
+                text=title,
+                max_glyphs=60,
+                color=title_color,
+                scale=title_scale,
+            )
             title.x = 0
             title.y = 8
             self._y = title.y + 18
@@ -120,7 +147,9 @@ class _ClueSimpleTextDisplay:
         """Fetch the Nth text line Group"""
         if len(self._lines) - 1 < item:
             for _ in range(item - (len(self._lines) - 1)):
-                self._lines.append(self.add_text_line(color=self._colors[item % len(self._colors)]))
+                self._lines.append(
+                    self.add_text_line(color=self._colors[item % len(self._colors)])
+                )
         return self._lines[item]
 
     def add_text_line(self, color=0xFFFFFF):
@@ -140,6 +169,7 @@ class _ClueSimpleTextDisplay:
     def show_terminal(self):
         """Revert to terminalio screen."""
         self._display.show(None)
+
 
 class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-methods
     """Represents a single CLUE."""
@@ -195,8 +225,12 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         self._red_led.switch_to_output()
 
         # Define audio:
-        self._mic = audiobusio.PDMIn(board.MICROPHONE_CLOCK, board.MICROPHONE_DATA,
-                                     sample_rate=16000, bit_depth=16)
+        self._mic = audiobusio.PDMIn(
+            board.MICROPHONE_CLOCK,
+            board.MICROPHONE_DATA,
+            sample_rate=16000,
+            bit_depth=16,
+        )
         self._sample = None
         self._samples = None
         self._sine_wave = None
@@ -352,7 +386,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         """
         ret = set()
         pressed = self._gamepad.get_pressed()
-        for button, mask in (('A', 0x01), ('B', 0x02)):
+        for button, mask in (("A", 0x01), ("B", 0x02)):
             if mask & pressed:
                 ret.add(button)
         return ret
@@ -690,7 +724,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         tone_volume = (2 ** 15) - 1
         shift = 2 ** 15
         for i in range(length):
-            yield int(tone_volume * math.sin(2*math.pi*(i / length)) + shift)
+            yield int(tone_volume * math.sin(2 * math.pi * (i / length)) + shift)
 
     def _generate_sample(self, length=100):
         if self._sample is not None:
@@ -791,8 +825,13 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
     @staticmethod
     def _normalized_rms(values):
         mean_values = int(sum(values) / len(values))
-        return math.sqrt(sum(float(sample - mean_values) * (sample - mean_values)
-                             for sample in values) / len(values))
+        return math.sqrt(
+            sum(
+                float(sample - mean_values) * (sample - mean_values)
+                for sample in values
+            )
+            / len(values)
+        )
 
     @property
     def sound_level(self):
@@ -812,7 +851,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               print(clue.sound_level)
         """
         if self._sample is None:
-            self._samples = array.array('H', [0] * 160)
+            self._samples = array.array("H", [0] * 160)
         self._mic.record(self._samples, len(self._samples))
         return self._normalized_rms(self._samples)
 
@@ -859,8 +898,14 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self.sound_level > sound_threshold
 
     @staticmethod
-    def simple_text_display(title=None, title_color=(255, 255, 255), title_scale=1,  # pylint: disable=too-many-arguments
-                            text_scale=1, font=None, colors=None):
+    def simple_text_display(  # pylint: disable=too-many-arguments
+        title=None,
+        title_color=(255, 255, 255),
+        title_scale=1,
+        text_scale=1,
+        font=None,
+        colors=None,
+    ):
         """Display lines of text on the CLUE display. Lines of text are created in order as shown
         in the example below. If you skip a number, the line will be shown blank on the display,
         e.g. if you include ``[0]`` and ``[2]``, the second line on the display will be empty, and
@@ -910,8 +955,14 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               clue_data[2].text = "Magnetic: {:.3f} {:.3f} {:.3f}".format(*clue.magnetic)
               clue_data.show()
         """
-        return _ClueSimpleTextDisplay(title=title, title_color=title_color, title_scale=title_scale,
-                                      text_scale=text_scale, font=font, colors=colors)
+        return _ClueSimpleTextDisplay(
+            title=title,
+            title_color=title_color,
+            title_scale=title_scale,
+            text_scale=text_scale,
+            font=font,
+            colors=colors,
+        )
 
 
 clue = Clue()  # pylint: disable=invalid-name
