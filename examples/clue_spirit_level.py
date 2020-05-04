@@ -1,6 +1,6 @@
 """CLUE Spirit Level Demo"""
-import board
 import time
+import board
 from adafruit_clue import clue
 from adafruit_display_shapes.circle import Circle
 import displayio
