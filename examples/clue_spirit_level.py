@@ -1,5 +1,6 @@
 """CLUE Spirit Level Demo"""
 import board
+import time
 from adafruit_clue import clue
 from adafruit_display_shapes.circle import Circle
 import displayio
@@ -26,3 +27,4 @@ while True:
     x, y, _ = clue.acceleration
     bubble_group.x = int(x * -10)
     bubble_group.y = int(y * -10)
+    time.sleep(0.05)  # 50ms delay to allow REPL to stop execution
