@@ -1,8 +1,8 @@
 """CLUE Spirit Level Demo"""
 import board
+import displayio
 from adafruit_clue import clue
 from adafruit_display_shapes.circle import Circle
-import displayio
 
 display = board.DISPLAY
 clue_group = displayio.Group(max_size=4)
