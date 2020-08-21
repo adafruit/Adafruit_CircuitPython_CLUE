@@ -14,10 +14,10 @@ import board
 import displayio
 from adafruit_display_text import label
 import terminalio
-from adafruit_clue import clue
 from adafruit_ble import BLERadio
 from adafruit_ble.advertising.adafruit import AdafruitColor
 from adafruit_display_shapes.rect import Rect
+from adafruit_clue import clue
 
 MODE_COLOR_SELECT = 0
 MODE_SHOW_PATCHWORK = 1

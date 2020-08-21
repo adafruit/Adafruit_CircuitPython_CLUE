@@ -7,8 +7,8 @@ through them.
 
 Requires the Adafruit CircuitPython Slideshow library!"""
 
-from adafruit_clue import clue
 from adafruit_slideshow import SlideShow, PlayBackDirection
+from adafruit_clue import clue
 
 slideshow = SlideShow(clue.display, auto_advance=False)
 
