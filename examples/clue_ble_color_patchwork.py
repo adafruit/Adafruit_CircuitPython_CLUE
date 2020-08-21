@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2019 Kattni Rembor, written for Adafruit Industries
+#
+# SPDX-License-Identifier: Unlicense
 """
 Circuit Python BLE Color Patchwork
 This demo uses advertising to broadcast a color of the users choice.

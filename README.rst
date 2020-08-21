@@ -13,7 +13,11 @@ Introduction
     :target: https://github.com/adafruit/Adafruit_CircuitPython_CLUE/actions
     :alt: Build Status
 
-A high level library representing all the features of the Adafruit CLUE.
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+    :alt: Code Style: Black
+
+A high level library representing all the features of the Adafruit CLUE
 
 
 Dependencies

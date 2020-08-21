@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2019 Kattni Rembor, written for Adafruit Industries
+#
+# SPDX-License-Identifier: Unlicense
 """Display a series of bitmaps using the buttons to advance through the list. To use: place
 supported bitmap files on your CIRCUITPY drive, then press the buttons on your CLUE to advance
 through them.
