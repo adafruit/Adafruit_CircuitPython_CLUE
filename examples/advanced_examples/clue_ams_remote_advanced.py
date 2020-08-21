@@ -18,9 +18,9 @@ import adafruit_ble
 from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
 from adafruit_ble_apple_media import AppleMediaService
 from adafruit_ble_apple_media import UnsupportedCommand
-from adafruit_clue import clue
 from adafruit_bitmap_font import bitmap_font
 from adafruit_display_shapes.rect import Rect
+from adafruit_clue import clue
 
 
 # PyLint can't find BLERadio for some reason so special case it here.
