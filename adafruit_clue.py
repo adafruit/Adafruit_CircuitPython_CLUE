@@ -550,6 +550,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               print("Gesture: {}".format(clue.gesture))
         """
         self._sensor.enable_gesture = True
+        self._sensor.enable_proximity = True
         return self._sensor.gesture()
 
     @property
