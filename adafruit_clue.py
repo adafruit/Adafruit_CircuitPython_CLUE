@@ -547,9 +547,14 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
           from adafruit_clue import clue
 
           while True:
-              print("Gesture: {}".format(clue.gesture))
+              value = clue.gesture
+              if value:
+                  print("gesture: {}".format(value))
         """
         self._sensor.enable_gesture = True
+        self._sensor.enable_proximity = True
+        # set rotation to match sensor orientation on CLUE
+        self._sensor.rotation = 270
         return self._sensor.gesture()
 
     @property
