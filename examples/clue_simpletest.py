@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 # SPDX-FileCopyrightText: 2019 Kattni Rembor, written for Adafruit Industries
 #
 # SPDX-License-Identifier: Unlicense

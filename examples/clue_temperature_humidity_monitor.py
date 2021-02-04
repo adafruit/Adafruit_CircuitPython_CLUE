@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 """Monitor customisable temperature and humidity ranges, with an optional audible alarm tone."""
 from adafruit_clue import clue
 
