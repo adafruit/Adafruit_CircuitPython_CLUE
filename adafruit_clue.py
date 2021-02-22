@@ -960,5 +960,5 @@ clue = Clue()  # pylint: disable=invalid-name
 
    .. code-block:: python
 
-   from adafruit_clue import clue
+     from adafruit_clue import clue
 """
