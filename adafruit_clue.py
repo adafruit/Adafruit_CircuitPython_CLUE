@@ -46,7 +46,7 @@ import board
 import digitalio
 import neopixel
 import adafruit_apds9960.apds9960
-import adafruit_bmp280
+from adafruit_bme280 import basic as adafruit_bme280
 import adafruit_lis3mdl
 import adafruit_lsm6ds.lsm6ds33
 import adafruit_sht31d
