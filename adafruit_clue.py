@@ -100,7 +100,7 @@ class _ClueSimpleTextDisplay:
         if font:
             self._font = font
 
-        self.text_group = displayio.Group(max_size=20, scale=text_scale)
+        self.text_group = displayio.Group(scale=text_scale)
 
         if title:
             # Fail gracefully if title is longer than 60 characters.

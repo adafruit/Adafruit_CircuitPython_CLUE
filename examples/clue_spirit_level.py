@@ -8,7 +8,7 @@ from adafruit_display_shapes.circle import Circle
 from adafruit_clue import clue
 
 display = board.DISPLAY
-clue_group = displayio.Group(max_size=4)
+clue_group = displayio.Group()
 
 outer_circle = Circle(120, 120, 119, outline=clue.WHITE)
 middle_circle = Circle(120, 120, 75, outline=clue.YELLOW)
@@ -18,7 +18,7 @@ clue_group.append(middle_circle)
 clue_group.append(inner_circle)
 
 x, y, _ = clue.acceleration
-bubble_group = displayio.Group(max_size=1)
+bubble_group = displayio.Group()
 level_bubble = Circle(int(x + 120), int(y + 120), 20, fill=clue.RED, outline=clue.RED)
 bubble_group.append(level_bubble)
 
