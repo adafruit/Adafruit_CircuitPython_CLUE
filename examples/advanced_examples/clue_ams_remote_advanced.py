@@ -10,6 +10,9 @@ adafruit_ble_apple_media
 adafruit_bitmap_font
 adafruit_display_shapes
 adafruit_display_text
+
+This example requires a lot of memory resources, make sure that you use
+the mpy version of the libraries
 """
 
 import time
