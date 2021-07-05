@@ -54,7 +54,7 @@ arial16 = bitmap_font.load_font("/fonts/Arial-16.bdf")
 
 display = board.DISPLAY
 
-group = displayio.Group(max_size=25)
+group = displayio.Group()
 
 title = label.Label(font=arial16, x=15, y=25, text="_", color=0xFFFFFF, max_glyphs=30)
 group.append(title)

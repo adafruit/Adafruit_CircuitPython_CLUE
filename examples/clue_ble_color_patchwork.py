@@ -137,10 +137,10 @@ for _i, _color in enumerate(color_options):
     color_select_palette[_i] = _color
 
 # Color Select Layout
-color_select_group = displayio.Group(max_size=10)
-color_select_text_group = displayio.Group(max_size=4, scale=3)
+color_select_group = displayio.Group()
+color_select_text_group = displayio.Group(scale=3)
 
-# white backrground
+# white background
 background = Rect(0, 0, 240, 240, fill=0xFFFFFF)
 center_line = Rect(119, 0, 2, 180, fill=0x000000)
 
