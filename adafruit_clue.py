@@ -110,7 +110,6 @@ class _ClueSimpleTextDisplay:
             title = label.Label(
                 self._font,
                 text=title,
-                max_glyphs=60,
                 color=title_color,
                 scale=title_scale,
             )
@@ -137,7 +136,7 @@ class _ClueSimpleTextDisplay:
 
     def add_text_line(self, color=0xFFFFFF):
         """Adds a line on the display of the specified color and returns the label object."""
-        text_label = self._label.Label(self._font, text="", max_glyphs=45, color=color)
+        text_label = self._label.Label(self._font, text="", color=color)
         text_label.x = 0
         text_label.y = self._y
         self._y = text_label.y + 13
