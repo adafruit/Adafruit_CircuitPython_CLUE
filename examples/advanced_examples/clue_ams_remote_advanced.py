@@ -59,16 +59,16 @@ display = board.DISPLAY
 
 group = displayio.Group()
 
-title = label.Label(font=arial16, x=15, y=25, text="_", color=0xFFFFFF, max_glyphs=30)
+title = label.Label(font=arial16, x=15, y=25, text="_", color=0xFFFFFF)
 group.append(title)
 
-artist = label.Label(font=arial16, x=15, y=50, text="_", color=0xFFFFFF, max_glyphs=30)
+artist = label.Label(font=arial16, x=15, y=50, text="_", color=0xFFFFFF)
 group.append(artist)
 
-album = label.Label(font=arial16, x=15, y=75, text="_", color=0xFFFFFF, max_glyphs=30)
+album = label.Label(font=arial16, x=15, y=75, text="_", color=0xFFFFFF)
 group.append(album)
 
-player = label.Label(font=arial16, x=15, y=100, text="_", color=0xFFFFFF, max_glyphs=30)
+player = label.Label(font=arial16, x=15, y=100, text="_", color=0xFFFFFF)
 group.append(player)
 
 volume = Rect(15, 170, 210, 20, fill=0x0, outline=0xFFFFFF)
