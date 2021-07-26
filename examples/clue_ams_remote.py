@@ -62,18 +62,18 @@ while radio.connected:
         time.sleep(0.25)
 
     # If button B (on the right) is pressed, it increases the volume
-    if "B" in clue.were_pressed:
+    if clue.button_b:
         ams.volume_up()
         time.sleep(0.30)
-        while "B" in clue.were_pressed:
+        while clue.button_b:
             ams.volume_up()
             time.sleep(0.07)
 
     # If button A (on the left) is pressed, the volume decreases
-    if "A" in clue.were_pressed:
+    if clue.button_a:
         ams.volume_down()
         time.sleep(0.30)
-        while "A" in clue.were_pressed:
+        while clue.button_a:
             ams.volume_down()
             time.sleep(0.07)
 

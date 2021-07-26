@@ -53,7 +53,6 @@ import adafruit_sht31d
 import audiobusio
 import audiopwmio
 import audiocore
-import gamepad
 import touchio
 
 __version__ = "0.0.0-auto.0"
@@ -197,7 +196,6 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         self._a.switch_to_input(pull=digitalio.Pull.UP)
         self._b = digitalio.DigitalInOut(board.BUTTON_B)
         self._b.switch_to_input(pull=digitalio.Pull.UP)
-        self._gamepad = gamepad.GamePad(self._a, self._b)
 
         # Define LEDs:
         self._white_leds = digitalio.DigitalInOut(board.WHITE_LEDS)
@@ -349,29 +347,6 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
                   print("Button B pressed")
         """
         return not self._b.value
-
-    @property
-    def were_pressed(self):
-        """Returns a set of the buttons that have been pressed.
-
-        .. image :: ../docs/_static/button_b.jpg
-          :alt: Button B
-
-        To use with the CLUE:
-
-        .. code-block:: python
-
-          from adafruit_clue import clue
-
-          while True:
-              print(clue.were_pressed)
-        """
-        ret = set()
-        pressed = self._gamepad.get_pressed()
-        for button, mask in (("A", 0x01), ("B", 0x02)):
-            if mask & pressed:
-                ret.add(button)
-        return ret
 
     def shake(self, shake_threshold=30, avg_count=10, total_delay=0.1):
         """
