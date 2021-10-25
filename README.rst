@@ -72,6 +72,11 @@ This example displays sensor and input data on the CLUE display.
         clue_data.show()
 
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/clue/en/latest/>`_.
+
 Contributing
 ============
 
