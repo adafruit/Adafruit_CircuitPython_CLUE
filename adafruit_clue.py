@@ -211,10 +211,10 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
             sample_rate=16000,
             bit_depth=16,
         )
-        self._sample = None
-        self._samples = None
+        self._audio_out = None
         self._sine_wave = None
         self._sine_wave_sample = None
+        self._mic_samples = None
 
         # Define sensors:
         # Accelerometer/gyroscope:
@@ -689,10 +689,10 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
             yield int(tone_volume * math.sin(2 * math.pi * (i / length)) + shift)
 
     def _generate_sample(self, length=100):
-        if self._sample is not None:
+        if self._audio_out is not None:
             return
         self._sine_wave = array.array("H", self._sine_sample(length))
-        self._sample = audiopwmio.PWMAudioOut(board.SPEAKER)
+        self._audio_out = audiopwmio.PWMAudioOut(board.SPEAKER)
         self._sine_wave_sample = audiocore.RawSample(self._sine_wave)
 
     def play_tone(self, frequency, duration):
@@ -752,8 +752,8 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         self._generate_sample(length)
         # Start playing a tone of the specified frequency (hz).
         self._sine_wave_sample.sample_rate = int(len(self._sine_wave) * frequency)
-        if not self._sample.playing:
-            self._sample.play(self._sine_wave_sample, loop=True)
+        if not self._audio_out.playing:
+            self._audio_out.play(self._sine_wave_sample, loop=True)
 
     def stop_tone(self):
         """Use with start_tone to stop the tone produced.
@@ -779,10 +779,10 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
                      clue.stop_tone()
         """
         # Stop playing any tones.
-        if self._sample is not None and self._sample.playing:
-            self._sample.stop()
-            self._sample.deinit()
-            self._sample = None
+        if self._audio_out is not None and self._audio_out.playing:
+            self._audio_out.stop()
+            self._audio_out.deinit()
+            self._audio_out = None
 
     @staticmethod
     def _normalized_rms(values):
@@ -812,10 +812,10 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
           while True:
               print(clue.sound_level)
         """
-        if self._sample is None:
-            self._samples = array.array("H", [0] * 160)
-        self._mic.record(self._samples, len(self._samples))
-        return self._normalized_rms(self._samples)
+        if self._mic_samples is None:
+            self._mic_samples = array.array("H", [0] * 160)
+        self._mic.record(self._mic_samples, len(self._mic_samples))
+        return self._normalized_rms(self._mic_samples)
 
     def loud_sound(self, sound_threshold=200):
         """Utilise a loud sound as an input.
