@@ -812,7 +812,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
           while True:
               print(clue.sound_level)
         """
-        if self._sample is None:
+        if self._samples is None:
             self._samples = array.array("H", [0] * 160)
         self._mic.record(self._samples, len(self._samples))
         return self._normalized_rms(self._samples)
