@@ -683,8 +683,8 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
     @staticmethod
     def _sine_sample(length):
-        tone_volume = (2 ** 15) - 1
-        shift = 2 ** 15
+        tone_volume = (2**15) - 1
+        shift = 2**15
         for i in range(length):
             yield int(tone_volume * math.sin(2 * math.pi * (i / length)) + shift)
 
