@@ -63,4 +63,3 @@ setup(
     # simple. Or you can use find_packages().
     py_modules=["adafruit_clue"],
 )
-
