@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2020 Dylan Herrada for Adafruit Industries
+# SPDX-FileCopyrightText: 2020 Eva Herrada for Adafruit Industries
 # SPDX-License-Identifier: MIT
 
 """
