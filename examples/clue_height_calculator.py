@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Kattni Rembor, written for Adafruit Industries
 #
-# SPDX-License-Identifier: Unlicense
+# SPDX-License-Identifier: MIT
 """Calculate the height of an object. Press button A to reset initial height and then lift the
 CLUE to find the height."""
 from adafruit_clue import clue
