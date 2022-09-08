@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2019 Kattni Rembor, written for Adafruit Industries
 #
-# SPDX-License-Identifier: Unlicense
+# SPDX-License-Identifier: MIT
 """CLUE Spirit Level Demo"""
 import board
 import displayio
