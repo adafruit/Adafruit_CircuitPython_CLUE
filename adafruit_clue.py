@@ -40,7 +40,7 @@ Implementation Notes
 """
 
 try:
-    from typing import Tuple
+    from typing import Union, Tuple
 except ImportError:
     pass
 
@@ -70,7 +70,7 @@ class _ClueSimpleTextDisplay:
     def __init__(  # pylint: disable=too-many-arguments
         self,
         title: str = None,
-        title_color: int = 0xFFFFFF,
+        title_color: Union[int, Tuple] = 0xFFFFFF,
         title_scale: int = 1,
         text_scale: int = 1,
         font: str = None,
@@ -387,7 +387,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return total_accel > shake_threshold
 
     @property
-    def acceleration(self) -> Tuple[float, float, float]:
+    def acceleration(self) -> Tuple:
         """Obtain acceleration data from the x, y and z axes.
 
         .. image :: ../docs/_static/accelerometer.jpg
@@ -407,7 +407,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._accelerometer.acceleration
 
     @property
-    def gyro(self) -> Tuple[float, float, float]:
+    def gyro(self) -> Tuple:
         """Obtain x, y, z angular velocity values in degrees/second.
 
         .. image :: ../docs/_static/accelerometer.jpg
@@ -427,7 +427,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._accelerometer.gyro
 
     @property
-    def magnetic(self) -> Tuple[float, float, float]:
+    def magnetic(self) -> Tuple:
         """Obtain x, y, z magnetic values in microteslas.
 
         .. image :: ../docs/_static/magnetometer.jpg
@@ -469,7 +469,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._sensor.proximity
 
     @property
-    def color(self) -> Tuple[int, int, int, int]:
+    def color(self) -> Tuple:
         """The red, green, blue, and clear light values. (r, g, b, c)
 
         .. image :: ../docs/_static/proximity.jpg
@@ -869,7 +869,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
     @staticmethod
     def simple_text_display(  # pylint: disable=too-many-arguments
         title: str = None,
-        title_color: Tuple[int, int, int] = (255, 255, 255),
+        title_color: Tuple = (255, 255, 255),
         title_scale: int = 1,
         text_scale: int = 1,
         font: str = None,
