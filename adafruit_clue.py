@@ -70,7 +70,7 @@ class _ClueSimpleTextDisplay:
     def __init__(  # pylint: disable=too-many-arguments
         self,
         title: Optional[str] = None,
-        title_color: Union[int, Tuple] = 0xFFFFFF,
+        title_color: Union[int, Tuple[int, int, int]] = 0xFFFFFF,
         title_scale: int = 1,
         text_scale: int = 1,
         font: Optional[str] = None,
