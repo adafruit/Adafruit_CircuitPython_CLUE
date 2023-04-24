@@ -39,6 +39,11 @@ Implementation Notes
    https://github.com/adafruit/Adafruit_CircuitPython_NeoPixel
 """
 
+try:
+    from typing import Union, Tuple, Optional
+except ImportError:
+    pass
+
 import time
 import array
 import math
@@ -64,12 +69,12 @@ class _ClueSimpleTextDisplay:
 
     def __init__(  # pylint: disable=too-many-arguments
         self,
-        title=None,
-        title_color=0xFFFFFF,
-        title_scale=1,
-        text_scale=1,
-        font=None,
-        colors=None,
+        title: Optional[str] = None,
+        title_color: Union[int, Tuple[int, int, int]] = 0xFFFFFF,
+        title_scale: int = 1,
+        text_scale: int = 1,
+        font: Optional[str] = None,
+        colors: Optional[Tuple[Tuple[int, int, int], ...]] = None,
     ):
         # pylint: disable=import-outside-toplevel
         import displayio
@@ -124,7 +129,7 @@ class _ClueSimpleTextDisplay:
         for num in range(1):
             self._lines.append(self.add_text_line(color=colors[num % len(colors)]))
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: int):
         """Fetch the Nth text line Group"""
         if len(self._lines) - 1 < item:
             for _ in range(item - (len(self._lines) - 1)):
@@ -133,7 +138,7 @@ class _ClueSimpleTextDisplay:
                 )
         return self._lines[item]
 
-    def add_text_line(self, color=0xFFFFFF):
+    def add_text_line(self, color: Union[int, Tuple[int, int, int]] = 0xFFFFFF):
         """Adds a line on the display of the specified color and returns the label object."""
         text_label = self._label.Label(self._font, text="", color=color)
         text_label.x = 0
@@ -235,7 +240,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         # Create displayio object for passing.
         self.display = board.DISPLAY
 
-    def _touch(self, i):
+    def _touch(self, i: int) -> bool:
         if not isinstance(self._touches[i], touchio.TouchIn):
             # First time referenced. Get the pin from the slot for this touch
             # and replace it with a TouchIn object for the pin.
@@ -244,7 +249,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._touches[i].value
 
     @property
-    def touch_0(self):
+    def touch_0(self) -> bool:
         """Detect touch on capacitive touch pad 0.
 
         .. image :: ../docs/_static/pad_0.jpg
@@ -265,7 +270,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._touch(0)
 
     @property
-    def touch_1(self):
+    def touch_1(self) -> bool:
         """Detect touch on capacitive touch pad 1.
 
         .. image :: ../docs/_static/pad_1.jpg
@@ -286,7 +291,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._touch(1)
 
     @property
-    def touch_2(self):
+    def touch_2(self) -> bool:
         """Detect touch on capacitive touch pad 2.
 
         .. image :: ../docs/_static/pad_2.jpg
@@ -307,7 +312,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._touch(2)
 
     @property
-    def button_a(self):
+    def button_a(self) -> bool:
         """``True`` when Button A is pressed. ``False`` if not.
 
         .. image :: ../docs/_static/button_a.jpg
@@ -328,7 +333,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return not self._a.value
 
     @property
-    def button_b(self):
+    def button_b(self) -> bool:
         """``True`` when Button B is pressed. ``False`` if not.
 
         .. image :: ../docs/_static/button_b.jpg
@@ -348,7 +353,9 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         """
         return not self._b.value
 
-    def shake(self, shake_threshold=30, avg_count=10, total_delay=0.1):
+    def shake(
+        self, shake_threshold: int = 30, avg_count: int = 10, total_delay: float = 0.1
+    ) -> bool:
         """
         Detect when the accelerometer is shaken. Optional parameters:
 
@@ -380,7 +387,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return total_accel > shake_threshold
 
     @property
-    def acceleration(self):
+    def acceleration(self) -> Tuple[int, int, int]:
         """Obtain acceleration data from the x, y and z axes.
 
         .. image :: ../docs/_static/accelerometer.jpg
@@ -400,7 +407,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._accelerometer.acceleration
 
     @property
-    def gyro(self):
+    def gyro(self) -> Tuple[int, int, int]:
         """Obtain x, y, z angular velocity values in degrees/second.
 
         .. image :: ../docs/_static/accelerometer.jpg
@@ -420,7 +427,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._accelerometer.gyro
 
     @property
-    def magnetic(self):
+    def magnetic(self) -> Tuple[int, int, int]:
         """Obtain x, y, z magnetic values in microteslas.
 
         .. image :: ../docs/_static/magnetometer.jpg
@@ -440,7 +447,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._magnetometer.magnetic
 
     @property
-    def proximity(self):
+    def proximity(self) -> int:
         """A relative proximity to the sensor in values from 0 - 255.
 
         .. image :: ../docs/_static/proximity.jpg
@@ -462,7 +469,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._sensor.proximity
 
     @property
-    def color(self):
+    def color(self) -> Tuple[int, int, int, int]:
         """The red, green, blue, and clear light values. (r, g, b, c)
 
         .. image :: ../docs/_static/proximity.jpg
@@ -484,7 +491,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._sensor.color_data
 
     @property
-    def gesture(self):
+    def gesture(self) -> int:
         """A gesture code if gesture is detected. Shows ``0`` if no gesture detected.
         ``1`` if an UP gesture is detected, ``2`` if DOWN, ``3`` if LEFT, and ``4`` if RIGHT.
 
@@ -512,7 +519,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._sensor.gesture()
 
     @property
-    def humidity(self):
+    def humidity(self) -> float:
         """The measured relative humidity in percent.
 
         .. image :: ../docs/_static/humidity.jpg
@@ -532,7 +539,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._humidity.relative_humidity
 
     @property
-    def pressure(self):
+    def pressure(self) -> float:
         """The barometric pressure in hectoPascals.
 
         .. image :: ../docs/_static/pressure.jpg
@@ -551,7 +558,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._pressure.pressure
 
     @property
-    def temperature(self):
+    def temperature(self) -> float:
         """The temperature in degrees Celsius.
 
         .. image :: ../docs/_static/pressure.jpg
@@ -570,7 +577,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._pressure.temperature
 
     @property
-    def altitude(self):
+    def altitude(self) -> float:
         """The altitude in meters based on the sea level pressure at your location. You must set
         ``sea_level_pressure`` to receive an accurate reading.
 
@@ -590,7 +597,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._pressure.altitude
 
     @property
-    def sea_level_pressure(self):
+    def sea_level_pressure(self) -> float:
         """Set to the pressure at sea level at your location, before reading altitude for
         the most accurate altitude measurement.
 
@@ -612,11 +619,11 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._pressure.sea_level_pressure
 
     @sea_level_pressure.setter
-    def sea_level_pressure(self, value):
+    def sea_level_pressure(self, value: float):
         self._pressure.sea_level_pressure = value
 
     @property
-    def white_leds(self):
+    def white_leds(self) -> bool:
         """The red led next to the USB plug labeled LED.
 
         .. image :: ../docs/_static/white_leds.jpg
@@ -635,11 +642,11 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._white_leds.value
 
     @white_leds.setter
-    def white_leds(self, value):
+    def white_leds(self, value: bool):
         self._white_leds.value = value
 
     @property
-    def red_led(self):
+    def red_led(self) -> bool:
         """The red led next to the USB plug labeled LED.
 
         .. image :: ../docs/_static/red_led.jpg
@@ -658,11 +665,11 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._red_led.value
 
     @red_led.setter
-    def red_led(self, value):
+    def red_led(self, value: bool):
         self._red_led.value = value
 
     @property
-    def pixel(self):
+    def pixel(self) -> neopixel.NeoPixel:
         """The NeoPixel RGB LED.
 
         .. image :: ../docs/_static/neopixel.jpg
@@ -682,20 +689,20 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._pixel
 
     @staticmethod
-    def _sine_sample(length):
+    def _sine_sample(length: int):
         tone_volume = (2**15) - 1
         shift = 2**15
         for i in range(length):
             yield int(tone_volume * math.sin(2 * math.pi * (i / length)) + shift)
 
-    def _generate_sample(self, length=100):
+    def _generate_sample(self, length: int = 100):
         if self._audio_out is not None:
             return
         self._sine_wave = array.array("H", self._sine_sample(length))
         self._audio_out = audiopwmio.PWMAudioOut(board.SPEAKER)
         self._sine_wave_sample = audiocore.RawSample(self._sine_wave)
 
-    def play_tone(self, frequency, duration):
+    def play_tone(self, frequency: int, duration: float):
         """Produce a tone using the speaker. Try changing frequency to change
         the pitch of the tone.
 
@@ -720,7 +727,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         time.sleep(duration)
         self.stop_tone()
 
-    def start_tone(self, frequency):
+    def start_tone(self, frequency: int):
         """Produce a tone using the speaker. Try changing frequency to change
         the pitch of the tone.
 
@@ -785,7 +792,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
             self._audio_out = None
 
     @staticmethod
-    def _normalized_rms(values):
+    def _normalized_rms(values) -> float:
         mean_values = int(sum(values) / len(values))
         return math.sqrt(
             sum(
@@ -796,7 +803,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         )
 
     @property
-    def sound_level(self):
+    def sound_level(self) -> float:
         """Obtain the sound level from the microphone (sound sensor).
 
         .. image :: ../docs/_static/microphone.jpg
@@ -817,7 +824,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         self._mic.record(self._mic_samples, len(self._mic_samples))
         return self._normalized_rms(self._mic_samples)
 
-    def loud_sound(self, sound_threshold=200):
+    def loud_sound(self, sound_threshold: int = 200) -> bool:
         """Utilise a loud sound as an input.
 
         :param int sound_threshold: Threshold sound level must exceed to return true (Default: 200)
@@ -861,12 +868,12 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
     @staticmethod
     def simple_text_display(  # pylint: disable=too-many-arguments
-        title=None,
-        title_color=(255, 255, 255),
-        title_scale=1,
-        text_scale=1,
-        font=None,
-        colors=None,
+        title: Optional[str] = None,
+        title_color: Tuple = (255, 255, 255),
+        title_scale: int = 1,
+        text_scale: int = 1,
+        font: Optional[str] = None,
+        colors: Optional[Tuple[Tuple[int, int, int], ...]] = None,
     ):
         """Display lines of text on the CLUE display. Lines of text are created in order as shown
         in the example below. If you skip a number, the line will be shown blank on the display,
