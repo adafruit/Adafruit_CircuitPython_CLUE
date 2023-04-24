@@ -40,7 +40,7 @@ Implementation Notes
 """
 
 try:
-    from typing import Union, Tuple
+    from typing import Union, Tuple, Optional
 except ImportError:
     pass
 
@@ -69,12 +69,12 @@ class _ClueSimpleTextDisplay:
 
     def __init__(  # pylint: disable=too-many-arguments
         self,
-        title: str = None,
+        title: Optional[str] = None,
         title_color: Union[int, Tuple] = 0xFFFFFF,
         title_scale: int = 1,
         text_scale: int = 1,
-        font: str = None,
-        colors: Tuple = None,
+        font: Optional[str] = None,
+        colors: Optional[Tuple[Tuple[int, int, int], ...]] = None,
     ):
         # pylint: disable=import-outside-toplevel
         import displayio
@@ -138,7 +138,7 @@ class _ClueSimpleTextDisplay:
                 )
         return self._lines[item]
 
-    def add_text_line(self, color: int = 0xFFFFFF):
+    def add_text_line(self, color: Union[int, Tuple[int, int, int]] = 0xFFFFFF):
         """Adds a line on the display of the specified color and returns the label object."""
         text_label = self._label.Label(self._font, text="", color=color)
         text_label.x = 0
@@ -387,7 +387,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return total_accel > shake_threshold
 
     @property
-    def acceleration(self) -> Tuple:
+    def acceleration(self) -> Tuple[int, int, int]:
         """Obtain acceleration data from the x, y and z axes.
 
         .. image :: ../docs/_static/accelerometer.jpg
@@ -407,7 +407,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._accelerometer.acceleration
 
     @property
-    def gyro(self) -> Tuple:
+    def gyro(self) -> Tuple[int, int, int]:
         """Obtain x, y, z angular velocity values in degrees/second.
 
         .. image :: ../docs/_static/accelerometer.jpg
@@ -427,7 +427,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._accelerometer.gyro
 
     @property
-    def magnetic(self) -> Tuple:
+    def magnetic(self) -> Tuple[int, int, int]:
         """Obtain x, y, z magnetic values in microteslas.
 
         .. image :: ../docs/_static/magnetometer.jpg
@@ -469,7 +469,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._sensor.proximity
 
     @property
-    def color(self) -> Tuple:
+    def color(self) -> Tuple[int, int, int, int]:
         """The red, green, blue, and clear light values. (r, g, b, c)
 
         .. image :: ../docs/_static/proximity.jpg
@@ -619,7 +619,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self._pressure.sea_level_pressure
 
     @sea_level_pressure.setter
-    def sea_level_pressure(self, value: int):
+    def sea_level_pressure(self, value: float):
         self._pressure.sea_level_pressure = value
 
     @property
@@ -702,7 +702,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         self._audio_out = audiopwmio.PWMAudioOut(board.SPEAKER)
         self._sine_wave_sample = audiocore.RawSample(self._sine_wave)
 
-    def play_tone(self, frequency: int, duration: int):
+    def play_tone(self, frequency: int, duration: float):
         """Produce a tone using the speaker. Try changing frequency to change
         the pitch of the tone.
 
@@ -868,12 +868,12 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
     @staticmethod
     def simple_text_display(  # pylint: disable=too-many-arguments
-        title: str = None,
+        title: Optional[str] = None,
         title_color: Tuple = (255, 255, 255),
         title_scale: int = 1,
         text_scale: int = 1,
-        font: str = None,
-        colors: Tuple = None,
+        font: Optional[str] = None,
+        colors: Optional[Tuple[Tuple[int, int, int], ...]] = None,
     ):
         """Display lines of text on the CLUE display. Lines of text are created in order as shown
         in the example below. If you skip a number, the line will be shown blank on the display,
