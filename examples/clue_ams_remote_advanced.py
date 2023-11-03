@@ -84,7 +84,7 @@ group.append(time_inner)
 volume_inner = Rect(15, 170, 1, 20, fill=0xFFFFFF, outline=0xFFFFFF)
 group.append(volume_inner)
 
-display.show(group)
+display.root_group = group
 time.sleep(0.01)
 
 width1 = 1
