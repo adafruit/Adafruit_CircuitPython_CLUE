@@ -78,7 +78,6 @@ class _ClueSimpleTextDisplay:
         colors: Optional[Tuple[Tuple[int, int, int], ...]] = None,
     ):
         # pylint: disable=import-outside-toplevel
-        import displayio
         import terminalio
         from adafruit_display_text import label
 
