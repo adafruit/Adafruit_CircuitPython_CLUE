@@ -59,6 +59,7 @@ import audiobusio
 import audiopwmio
 import audiocore
 import touchio
+import displayio
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_CLUE.git"
@@ -77,7 +78,6 @@ class _ClueSimpleTextDisplay:
         colors: Optional[Tuple[Tuple[int, int, int], ...]] = None,
     ):
         # pylint: disable=import-outside-toplevel
-        import displayio
         import terminalio
         from adafruit_display_text import label
 
@@ -150,11 +150,11 @@ class _ClueSimpleTextDisplay:
 
     def show(self):
         """Call show() to display the data list."""
-        self._display.show(self.text_group)
+        self._display.root_group = self.text_group
 
     def show_terminal(self):
         """Revert to terminalio screen."""
-        self._display.show(None)
+        self._display.root_group = displayio.CIRCUITPYTHON_TERMINAL
 
 
 class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-methods

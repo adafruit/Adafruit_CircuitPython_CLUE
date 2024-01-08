@@ -207,7 +207,7 @@ group = displayio.Group()
 group.append(patchwork_group)
 
 # Add the Group to the Display
-display.show(group)
+display.root_group = group
 
 cur_color = 0
 

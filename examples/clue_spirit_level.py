@@ -23,7 +23,7 @@ level_bubble = Circle(int(x + 120), int(y + 120), 20, fill=clue.RED, outline=clu
 bubble_group.append(level_bubble)
 
 clue_group.append(bubble_group)
-display.show(clue_group)
+display.root_group = clue_group
 
 while True:
     x, y, _ = clue.acceleration
