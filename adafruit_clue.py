@@ -59,7 +59,7 @@ import audiobusio
 import audiopwmio
 import audiocore
 import touchio
-from displayio import CIRCUITPYTHON_TERMINAL
+import displayio
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_CLUE.git"
@@ -155,7 +155,7 @@ class _ClueSimpleTextDisplay:
 
     def show_terminal(self):
         """Revert to terminalio screen."""
-        self._display.root_group = CIRCUITPYTHON_TERMINAL
+        self._display.root_group = displayio.CIRCUITPYTHON_TERMINAL
 
 
 class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-methods
