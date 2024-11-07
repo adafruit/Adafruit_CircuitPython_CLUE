@@ -747,9 +747,9 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
              while True:
                  if clue.button_a:
-                     clue.start_tone(523)
+                     clue.start_tone(1600)
                  elif clue.button_b:
-                     clue.start_tone(587)
+                     clue.start_tone(2000)
                  else:
                      clue.stop_tone()
         """
@@ -779,9 +779,9 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
              while True:
                  if clue.button_a:
-                     clue.start_tone(523)
+                     clue.start_tone(1600)
                  elif clue.button_b:
-                     clue.start_tone(587)
+                     clue.start_tone(2000)
                  else:
                      clue.stop_tone()
         """
