@@ -40,7 +40,7 @@ Implementation Notes
 """
 
 try:
-    from typing import Union, Tuple, Optional
+    from typing import Union, Tuple, Optional, List
 except ImportError:
     pass
 
@@ -48,6 +48,7 @@ import time
 import array
 import math
 import board
+from microcontroller import Pin
 import digitalio
 import neopixel
 import adafruit_apds9960.apds9960
@@ -188,12 +189,13 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         self._i2c = board.I2C()
 
         # Define touch:
-        # Initially, self._touches stores the pin used for a particular touch. When that touch is
-        # used for the first time, the pin is replaced with the corresponding TouchIn object.
-        # This saves a little RAM over using a separate read-only pin tuple.
+        # Initially, self._touches is an empty dictionary. When a touch is used
+        # for the first time, the pin is added as a key to the dictionary, with
+        # the corresponding TouchIn object added as the value. This saves a
+        # little RAM by only populating the dictionary as needed.
         # For example, after `clue.touch_2`, self._touches is equivalent to:
-        # [board.D0, board.D1, touchio.TouchIn(board.D2)]
-        self._touches = [board.D0, board.D1, board.D2]
+        # { board.P2, touchio.TouchIn(board.P2) }
+        self._touches = {}
         self._touch_threshold_adjustment = 0
 
         # Define buttons:
@@ -240,13 +242,14 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         # Create displayio object for passing.
         self.display = board.DISPLAY
 
-    def _touch(self, i: int) -> bool:
-        if not isinstance(self._touches[i], touchio.TouchIn):
-            # First time referenced. Get the pin from the slot for this touch
-            # and replace it with a TouchIn object for the pin.
-            self._touches[i] = touchio.TouchIn(self._touches[i])
-            self._touches[i].threshold += self._touch_threshold_adjustment
-        return self._touches[i].value
+    def _touch(self, pin: Pin) -> bool:
+        touchin = self._touches.get(pin)
+        if not touchin:
+            # First time referenced. Make TouchIn object for the pin
+            touchin = touchio.TouchIn(pin)
+            touchin.threshold += self._touch_threshold_adjustment
+            self._touches[pin] = touchin
+        return touchin.value
 
     @property
     def touch_0(self) -> bool:
@@ -267,7 +270,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               if clue.touch_0:
                   print("Touched pad 0")
         """
-        return self._touch(0)
+        return self._touch(board.P0)
 
     @property
     def touch_1(self) -> bool:
@@ -288,7 +291,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               if clue.touch_1:
                   print("Touched pad 1")
         """
-        return self._touch(1)
+        return self._touch(board.P1)
 
     @property
     def touch_2(self) -> bool:
@@ -309,7 +312,17 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
               if clue.touch_2:
                   print("Touched pad 2")
         """
-        return self._touch(2)
+        return self._touch(board.P2)
+
+    @property
+    def touch_pins(self) -> List[Pin]:
+        """A list of all the pins that are set up as touchpad inputs"""
+        return list(self._touches.keys())
+
+    @property
+    def touched(self):
+        """A list of all the pins that are currently registering a touch"""
+        return [pin for pin, touchpad in self._touches.items() if touchpad.value]
 
     @property
     def button_a(self) -> bool:
