@@ -228,7 +228,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         # Accelerometer/gyroscope:
         try:
             self._accelerometer = adafruit_lsm6ds.lsm6ds33.LSM6DS33(self._i2c)
-        except:
+        except RuntimeError:
             self._accelerometer = adafruit_lsm6ds.lsm6ds3trc.LSM6DS3TRC(self._i2c)
 
         # Magnetometer:
