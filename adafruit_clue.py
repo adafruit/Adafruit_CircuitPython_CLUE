@@ -55,6 +55,7 @@ import adafruit_apds9960.apds9960
 import adafruit_bmp280
 import adafruit_lis3mdl
 import adafruit_lsm6ds.lsm6ds33
+import adafruit_lsm6ds.lsm6ds3trc
 import adafruit_sht31d
 import audiobusio
 import audiopwmio
@@ -225,7 +226,10 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
 
         # Define sensors:
         # Accelerometer/gyroscope:
-        self._accelerometer = adafruit_lsm6ds.lsm6ds33.LSM6DS33(self._i2c)
+        try:
+            self._accelerometer = adafruit_lsm6ds.lsm6ds33.LSM6DS33(self._i2c)
+        except:
+            self._accelerometer = adafruit_lsm6ds.lsm6ds3trc.LSM6DS3TRC(self._i2c)
 
         # Magnetometer:
         self._magnetometer = adafruit_lis3mdl.LIS3MDL(self._i2c)
