@@ -2,9 +2,11 @@
 #
 # SPDX-License-Identifier: MIT
 """CLUE Spirit Level Demo"""
+
 import board
 import displayio
 from adafruit_display_shapes.circle import Circle
+
 from adafruit_clue import clue
 
 display = board.DISPLAY

@@ -8,15 +8,17 @@ We will show a color "patch" on the screen for every unique device
 advertisement that we find.
 """
 
-import time
 import random
+import time
+
 import board
 import displayio
-from adafruit_display_text import label
 import terminalio
 from adafruit_ble import BLERadio
 from adafruit_ble.advertising.adafruit import AdafruitColor
 from adafruit_display_shapes.rect import Rect
+from adafruit_display_text import label
+
 from adafruit_clue import clue
 
 MODE_COLOR_SELECT = 0
@@ -62,9 +64,7 @@ def make_white():
 def draw_grid():
     for i, color in enumerate(nearby_colors):
         if i < 64:
-            palette_mapping[i + 2] = (
-                color & 0xFFFFFF
-            )  # Mask 0xFFFFFF to avoid invalid color.
+            palette_mapping[i + 2] = color & 0xFFFFFF  # Mask 0xFFFFFF to avoid invalid color.
             print(i)
             print(color)
 
@@ -150,9 +150,7 @@ bottom_box = Rect(79, 174, 80, 80, fill=0xFFFFFF, outline=0x000000, stroke=2)
 left_btn_lbl = label.Label(terminalio.FONT, text="A", color=0x000000)
 right_btn_lbl = label.Label(terminalio.FONT, text="B", color=0x000000)
 
-left_btn_action = label.Label(
-    terminalio.FONT, text="Next\nColor", color=0x000000, line_spacing=1
-)
+left_btn_action = label.Label(terminalio.FONT, text="Next\nColor", color=0x000000, line_spacing=1)
 right_btn_action = label.Label(terminalio.FONT, text="Save", color=0x000000)
 
 color_select_text_group.append(left_btn_lbl)
@@ -239,7 +237,7 @@ while True:
         if last_scan_time + SCAN_INTERVAL < now:
             ble_scan()
             last_scan_time = now
-            print("after scan found {} results".format(len(nearby_colors)))
+            print(f"after scan found {len(nearby_colors)} results")
             # print(nearby_addresses)
             draw_grid()
 
@@ -248,9 +246,7 @@ while True:
             while clue.proximity >= PROXIMITY_LIMIT:
                 r, g, b, w = clue.color
                 clue.pixel.fill(((r >> 8) & 0xFF, (g >> 8) & 0xFF, (b >> 8) & 0xFF))
-                change_advertisement(
-                    ((r & 0xFF00) << 8) + (g & 0xFF00) + ((b >> 8) & 0xFF)
-                )
+                change_advertisement(((r & 0xFF00) << 8) + (g & 0xFF00) + ((b >> 8) & 0xFF))
                 time.sleep(0.1)
             clue.white_leds = False
 
