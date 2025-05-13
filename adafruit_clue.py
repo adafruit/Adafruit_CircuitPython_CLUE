@@ -40,28 +40,29 @@ Implementation Notes
 """
 
 try:
-    from typing import Union, Tuple, Optional, List
+    from typing import List, Optional, Tuple, Union
 except ImportError:
     pass
 
-import time
 import array
 import math
-import board
-from microcontroller import Pin
-import digitalio
-import neopixel
+import time
+
 import adafruit_apds9960.apds9960
 import adafruit_bmp280
 import adafruit_lis3mdl
-import adafruit_lsm6ds.lsm6ds33
 import adafruit_lsm6ds.lsm6ds3trc
+import adafruit_lsm6ds.lsm6ds33
 import adafruit_sht31d
 import audiobusio
-import audiopwmio
 import audiocore
-import touchio
+import audiopwmio
+import board
+import digitalio
 import displayio
+import neopixel
+import touchio
+from microcontroller import Pin
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_CLUE.git"
@@ -70,7 +71,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_CLUE.git"
 class _ClueSimpleTextDisplay:
     """Easily display lines of text on CLUE display."""
 
-    def __init__(  # pylint: disable=too-many-arguments
+    def __init__(
         self,
         title: Optional[str] = None,
         title_color: Union[int, Tuple[int, int, int]] = 0xFFFFFF,
@@ -79,11 +80,8 @@ class _ClueSimpleTextDisplay:
         font: Optional[str] = None,
         colors: Optional[Tuple[Tuple[int, int, int], ...]] = None,
     ):
-        # pylint: disable=import-outside-toplevel
-        import terminalio
-        from adafruit_display_text import label
-
-        # pylint: enable=import-outside-toplevel
+        import terminalio  # noqa: PLC0415
+        from adafruit_display_text import label  # noqa: PLC0415
 
         if not colors:
             colors = (
@@ -135,9 +133,7 @@ class _ClueSimpleTextDisplay:
         """Fetch the Nth text line Group"""
         if len(self._lines) - 1 < item:
             for _ in range(item - (len(self._lines) - 1)):
-                self._lines.append(
-                    self.add_text_line(color=self._colors[item % len(self._colors)])
-                )
+                self._lines.append(self.add_text_line(color=self._colors[item % len(self._colors)]))
         return self._lines[item]
 
     def add_text_line(self, color: Union[int, Tuple[int, int, int]] = 0xFFFFFF):
@@ -159,7 +155,7 @@ class _ClueSimpleTextDisplay:
         self._display.root_group = displayio.CIRCUITPYTHON_TERMINAL
 
 
-class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-methods
+class Clue:
     """Represents a single CLUE."""
 
     # Color variables available for import.
@@ -812,10 +808,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
     def _normalized_rms(values) -> float:
         mean_values = int(sum(values) / len(values))
         return math.sqrt(
-            sum(
-                float(sample - mean_values) * (sample - mean_values)
-                for sample in values
-            )
+            sum(float(sample - mean_values) * (sample - mean_values) for sample in values)
             / len(values)
         )
 
@@ -884,7 +877,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         return self.sound_level > sound_threshold
 
     @staticmethod
-    def simple_text_display(  # pylint: disable=too-many-arguments
+    def simple_text_display(
         title: Optional[str] = None,
         title_color: Tuple = (255, 255, 255),
         title_scale: int = 1,
@@ -951,7 +944,7 @@ class Clue:  # pylint: disable=too-many-instance-attributes, too-many-public-met
         )
 
 
-clue = Clue()  # pylint: disable=invalid-name
+clue = Clue()
 """Object that is automatically created on import.
 
    To use, simply import it from the module:

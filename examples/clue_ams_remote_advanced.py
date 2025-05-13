@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2020 Eva Herrada for Adafruit Industries
 # SPDX-License-Identifier: MIT
-""" This example solicits that apple devices that provide notifications connect to it, initiates
+"""This example solicits that apple devices that provide notifications connect to it, initiates
 pairing, then allows the user to use a CLUE board as a media remote through both the buttons
 and capacitive touch pads.
 
@@ -16,20 +16,20 @@ the mpy version of the libraries
 """
 
 import time
+
+import adafruit_ble
 import board
 import displayio
-from adafruit_display_text import label
-import adafruit_ble
-from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
-from adafruit_ble_apple_media import AppleMediaService
-from adafruit_ble_apple_media import UnsupportedCommand
 from adafruit_bitmap_font import bitmap_font
+from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
+from adafruit_ble_apple_media import AppleMediaService, UnsupportedCommand
 from adafruit_display_shapes.rect import Rect
+from adafruit_display_text import label
+
 from adafruit_clue import clue
 
-
 # PyLint can't find BLERadio for some reason so special case it here.
-radio = adafruit_ble.BLERadio()  # pylint: disable=no-member
+radio = adafruit_ble.BLERadio()
 a = SolicitServicesAdvertisement()
 a.solicited_services.append(AppleMediaService)
 radio.start_advertising(a)
@@ -105,9 +105,7 @@ while radio.connected:
             if not width:
                 width = 1
             if ams.duration and ams.playing:
-                width1 = int(
-                    210 * ((time.time() - ref_time + ela_time) / float(ams.duration))
-                )
+                width1 = int(210 * ((time.time() - ref_time + ela_time) / float(ams.duration)))
                 if not width1:
                     width1 = 1
             elif not ams.duration:
@@ -115,9 +113,7 @@ while radio.connected:
 
             time_inner = Rect(15, 210, width1, 20, fill=0xFFFFFF)  # , outline=0xFFFFFF)
             group[-2] = time_inner
-            volume_inner = Rect(
-                15, 170, width, 20, fill=0xFFFFFF
-            )  # , outline=0xFFFFFF)
+            volume_inner = Rect(15, 170, width, 20, fill=0xFFFFFF)  # , outline=0xFFFFFF)
             group[-1] = volume_inner
 
         # Capacitive touch pad marked 0 goes to the previous track

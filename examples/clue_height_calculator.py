@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: MIT
 """Calculate the height of an object. Press button A to reset initial height and then lift the
 CLUE to find the height."""
+
 from adafruit_clue import clue
 
 # Set to the sea level pressure in hPa at your location for the most accurate altitude measurement.
@@ -26,6 +27,6 @@ while True:
     else:
         clue.pixel.fill(0)
 
-    clue_display[5].text = "Altitude: {:.1f} m".format(clue.altitude)
-    clue_display[7].text = "Height: {:.1f} m".format(clue.altitude - initial_height)
+    clue_display[5].text = f"Altitude: {clue.altitude:.1f} m"
+    clue_display[7].text = f"Height: {clue.altitude - initial_height:.1f} m"
     clue_display.show()

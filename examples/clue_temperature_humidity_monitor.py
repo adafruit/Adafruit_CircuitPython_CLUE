@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 """Monitor customisable temperature and humidity ranges, with an optional audible alarm tone."""
+
 from adafruit_clue import clue
 
 # Set desired temperature range in degrees Celsius.
@@ -26,8 +27,8 @@ while True:
     temperature = clue.temperature
     humidity = clue.humidity
 
-    clue_display[3].text = "Temp: {:.1f} C".format(temperature)
-    clue_display[5].text = "Humi: {:.1f} %".format(humidity)
+    clue_display[3].text = f"Temp: {temperature:.1f} C"
+    clue_display[5].text = f"Humi: {humidity:.1f} %"
 
     if temperature < min_temperature:
         clue_display[3].color = clue.BLUE
